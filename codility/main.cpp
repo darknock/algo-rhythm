@@ -139,6 +139,21 @@ int main(int argc, char** argv)
     TEST(L4_MissingInteger(A, N));
   } break;
 
+  case 43:
+  {
+    int N = atoi(argv[2]);
+    if ((N < 1) || (100000 < N) || (N != argc - 3)) {
+        wrong_params();
+        usage(*argv);
+        return 3;
+    }
+    int A[100000]; //Yeah
+    for (int i = 0; i < N; ++i)
+        A[i] = atoi(argv[i + 3]);
+
+    TEST(L4_PermCheck(A, N));
+  } break;
+
   case 44:
   {
     int M = atoi(argv[2]);

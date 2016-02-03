@@ -43,7 +43,32 @@ int L4_MissingInteger(int A[], int N)
   return i + 1;
 }
 
-int L4_PermCheck(int A[], int N); // hm...
+int L4_PermCheck(int A[], int N)
+{
+    int *m = 0;
+    m = (int*)malloc(N * sizeof(int));
+    for (int i = 0; i < N; ++i) {
+        m[i] = 0;
+    }
+
+    for (int i = 0; i < N; ++i) {
+        if (I <= A[i] && A[i] <= N && m[A[i] - 1] == 0) {
+            m[A[i] - 1] = 1;
+        }
+    }
+
+    for (int i = 0; i < N; ++i) {
+        printf("%d ", m[i]);
+    }
+
+    int i = 0;
+    for (; i < N; ++i) {
+        if (!m[i])
+            break;
+    }
+
+    return i + 1 < N ? 0 : 1;
+}
 
 struct Results {
   int * C;
