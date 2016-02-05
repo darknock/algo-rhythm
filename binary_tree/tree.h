@@ -2,7 +2,6 @@
 #define _BINARY_TREE_
 
 #include <functional>
-#include <iostream>
 
 template<typename T>
 class Tree {
@@ -16,16 +15,37 @@ public:
 
     class Node;
 
-    void insert(Tree<T>::Node *node) {
-        insert_internal(node, root_);
+    Tree<T>& operator<<(T value) { insert(value); return *this; }
+
+    void insert(T value) {
+        insert_internal(node(value), root_);
     }
 
-    void remove(Tree<T>::Node *node) {
+    void remove(Node *node) {
         remove_internal(node);
     }
 
-    void traverse(const std::function <void(T)> &f, Tree<T>::TraverseOrder traverse_order) {
-        #warning "treverse Not implemented"
+    void traverse(const std::function <void(T)> &f, TraverseOrder traverse_order) {
+        switch (traverse_order) {
+        case PRE_ORDER:
+            traverse_pre_order(root_, f);
+            break;
+        case IN_ORDER:
+            traverse_in_order(root_, f);
+            break;
+        case POST_ORDER:
+            traverse_post_order(root_, f);
+            break;
+        case LEVEL_ORDER:
+            traverse_level_order(root_, f);
+            break;
+        default:
+            break;
+        }
+    }
+
+    void paint() {
+
     }
 
 public:
@@ -40,8 +60,38 @@ public:
     };
 
 protected:
-    virtual bool insert_internal(Tree<T>::Node *node, Tree<T>::Node *parent) = 0; 
-    virtual bool remove_internal(Tree<T>::Node *node) = 0;
+    virtual Node* node(T value) { return new Node(value); }
+    virtual bool insert_internal(Node *node, Node *parent) = 0;
+    virtual bool remove_internal(Node *node) = 0;
+
+    void traverse_pre_order(Node *current, const std::function <void(T)> &f) {
+        if (0 != current) {
+            f(*current);
+            traverse_pre_order(current->left, f);
+            traverse_pre_order(current->right, f);
+        }
+    }
+
+    void traverse_in_order(Node *current, const std::function <void(T)> &f) {
+        if (0 != current) {
+            traverse_in_order(current->left, f);
+            f(*current);
+            traverse_in_order(current->right, f);
+        }
+    }
+
+    void traverse_post_order(Node *current, const std::function <void(T)> &f) {
+        if (0 != current) {
+            traverse_post_order(current->left, f);
+            traverse_post_order(current->right, f);
+            f(*current);
+        }
+    }
+
+    void traverse_level_order(Node *current, const std::function <void(T)> &f) {
+        int level = 0;
+        std::queue<Node *> queue;
+    }
 
     Node *root_ = 0;
 };

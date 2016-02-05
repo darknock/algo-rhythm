@@ -3,7 +3,7 @@
  
 #include "tree.h"
 
-#include <iostream> // for std::cerr
+#include <iostream>
 
 template<typename T>
 class BinarySearchTree : public Tree<T>
@@ -13,6 +13,7 @@ protected:
        if (0 == parent) {
            if (0 == this->root_) {
                this->root_ = node;
+               //std::cout << "Inserting as root\n";
                return true;
            } else {
                std::cerr << "Improper use of " << __func__ << std::endl;
@@ -20,15 +21,17 @@ protected:
            }
        }
        typename Tree<T>::Node *new_parent = 0;
-       if (node < parent)
+       if (*node < *parent)
            if (0 == parent->left) {
                parent->left = node;
+               //std::cout << *node << " Inserting as left child of " << *parent << std::endl;
                return true;
            } else
                new_parent = parent->left;
-       else if (node > parent)
+       else if (*node > *parent)
            if (0 == parent->right) {
                parent->right = node;
+               //std::cout << *node << " Inserting as right child of " << *parent << std::endl;
                return true;
            } else
                new_parent = parent->right;
