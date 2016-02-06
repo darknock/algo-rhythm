@@ -1,12 +1,26 @@
-#include "binarysearchtree.h"
+#include "binarytree.h"
+
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include <QtQml>
 
 #include <iostream>
 
 int main(int argc, char** argv)
 {
     if (argc < 3) {
-        std::cout << "Usage: " << argv[0] << "<N> <n0 n1 n2 ...>\n";
-        exit(-1);
+        if (argc == 2) {
+            QGuiApplication app(argc, argv);
+            QQmlApplicationEngine engine;
+            qmlRegisterType<BinaryNode>("com.qlsystems.binary", 1, 0, "BinaryNode");
+            qmlRegisterType<BinaryTree>("com.qlsystems.binary", 1, 0, "BinaryTree");
+            engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+
+            return app.exec();
+        } else {
+            std::cout << "Usage: " << argv[0] << "<N> <n0 n1 n2 ...>\n";
+            exit(-1);
+        }
     }
 
     BinarySearchTree<int> tree;
