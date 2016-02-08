@@ -52,7 +52,7 @@ int L4_PermCheck(int A[], int N)
     }
 
     for (int i = 0; i < N; ++i) {
-        if (I <= A[i] && A[i] <= N && m[A[i] - 1] == 0) {
+        if (i <= A[i] && A[i] <= N && m[A[i] - 1] == 0) {
             m[A[i] - 1] = 1;
         }
     }

@@ -1,11 +1,13 @@
 #include "stdio.h"
 #include "stdlib.h"
+#include "string"
 
 #include "L1_Iterations.h"
 #include "L2_Arrays.h"
 #include "L3_TimeComplexity.h"
 #include "L4_CountingElements.h"
 #include "L5_PrefixSums.h"
+#include "calculator.h"
 
 void usage(char *name);
 void wrong_params();
@@ -233,6 +235,19 @@ int main(int argc, char** argv)
     for (int i = 0; i < results.M; ++i)
       printf(" %d", results.A[i]);
     printf("\n");
+  } break;
+
+  case 61:
+  {
+    if (argc != 3) {
+        wrong_params();
+        usage(*argv);
+        return 3;
+    }
+    printf("Test calculator:\n");
+    std::string input(argv[2]);
+    int result = resolve(input.begin(), input.end());
+    printf("Test results: %d\n", result);
   } break;
 
   default:
